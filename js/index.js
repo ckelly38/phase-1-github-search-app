@@ -36,6 +36,36 @@ function cleanUrl(url)
     return removeUsersFromUrl(mytempurl);
 }
 
+function getReposInfo(event, repurl)
+{
+    console.log("event in getReposInfo() = " + event);
+    console.log("repurl right before fetch in getReposInfo() = " + repurl);
+    if (repurl == undefined || repurl == null || repurl.length < 10)
+    {
+        throw "illegal url found and used for the repos for the fetch request info!";
+    }
+    //else;//do nothing safe to proceed
+    debugger;
+    
+    fetch(repurl).then((res) => res.json()).
+    then(function(response){
+        console.log("response = " + response);
+        //returns an array of objects
+        //in these objects are the we want the name and the html_url and the description
+        let myresarr = response;
+        for(let n = 0; n < myresarr.length; n++)
+        {
+            console.log("myresarr[" + n + "].name = " + myresarr[n].name);
+            console.log("myresarr[" + n + "].description = " + myresarr[n].description);
+            console.log("myresarr[" + n + "].html_url = " + myresarr[n].html_url);
+        }//end of n for loop
+        debugger;
+    }).
+    catch(function(err){
+        console.error(err);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("github-form").addEventListener("submit", function(event){
         event.preventDefault();
@@ -119,9 +149,15 @@ document.addEventListener("DOMContentLoaded", function(){
                 //myreposa.href = "" + response.items[n].repos_url;//repos_url value
                 //myreposa.target = "_blank";
                 let myli = document.createElement("li");
-                //myli.onclick = myreposa;
+                //myli.onclick = getReposInfo(response.items[n].repos_url);
                 //console.log("myli = " + myli);
                 //console.log("myreposa = " + myreposa);
+                myli.addEventListener("click", function(repurl, event)
+                {
+                    console.log("event in listener = " + event);
+                    console.log("repurl in listener = " + repurl);
+                    getReposInfo(event, repurl);
+                }.bind(this, response.items[n].repos_url));
 
                 let myimgtble = document.createElement("table");
                 let myuserdatatable = document.createElement("table");
