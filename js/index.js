@@ -1,3 +1,5 @@
+//NOTE: BONUS FORFEITED OR NOT ATTEMPTED; NO TIME; ALREADY SPENT ENOUGH TIME ON THIS
+
 function removeApiFromUrl(url)
 {
     if (url == undefined) return "";
@@ -45,7 +47,7 @@ function getReposInfo(event, repurl)
         throw "illegal url found and used for the repos for the fetch request info!";
     }
     //else;//do nothing safe to proceed
-    debugger;
+    //debugger;
     
     fetch(repurl).then((res) => res.json()).
     then(function(response){
@@ -53,13 +55,28 @@ function getReposInfo(event, repurl)
         //returns an array of objects
         //in these objects are the we want the name and the html_url and the description
         let myresarr = response;
-        for(let n = 0; n < myresarr.length; n++)
+        for (let n = 0; n < myresarr.length; n++)
         {
             console.log("myresarr[" + n + "].name = " + myresarr[n].name);
             console.log("myresarr[" + n + "].description = " + myresarr[n].description);
             console.log("myresarr[" + n + "].html_url = " + myresarr[n].html_url);
+            let myli = document.createElement("li");
+            let mypname = document.createElement("p");
+            let mypdesc = document.createElement("p");
+            let myurl = document.createElement("a");
+            myurl.href = "" + myresarr[n].html_url;
+            myurl.target = "_blank";
+            myurl.textContent = "" + myresarr[n].html_url;
+            mypname.textContent = "" + myresarr[n].name;
+            mypdesc.textContent = "" + myresarr[n].description;
+            myli.appendChild(mypname);
+            myli.appendChild(mypdesc);
+            myli.appendChild(myurl);
+            document.getElementById("repos-list").appendChild(myli);
+            console.log("successfully added the repo!");
         }//end of n for loop
-        debugger;
+        console.log("successfully added all of the repos!");
+        //debugger;
     }).
     catch(function(err){
         console.error(err);
@@ -190,9 +207,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 myli.appendChild(myimgtble);
                 myusrlist.appendChild(myli);
                 console.log("successfully added the data for one user!");
-                debugger;
+                //debugger;
             }//end of n for loop
-            debugger;
+            console.log("successfully added the data for all of the users!");
+            //debugger;
         })
         .catch(function (err) {
             console.error(err);
